@@ -44,11 +44,19 @@ class MDataset(Dataset):
 
 train_df = pd.read_csv("./dataset/part_of_mnist_train.csv")
 test_df = pd.read_csv("./dataset/mnist_test.csv")
-
+# random pick 5000 sample
+train_df = train_df.sample(n=5000,random_state=1)
 train_data = MDataset(train_df, data_transform)
 test_data = MDataset(test_df, data_transform)
 
+print(len(train_df))
+print(train_df.iloc[0])
+
+
 train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=num_workers, drop_last=True)
+print(train_loader)
+
+
 test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 
@@ -124,6 +132,6 @@ for epoch in range(1, epochs+1):
 
     val(epoch)
 
-save_path = "./11ep_20kdata_sup_Model.pkl"
-torch.save(model, save_path)
+# save_path = "./11ep_20kdata_sup_Model.pkl"
+# torch.save(model, save_path)
 
